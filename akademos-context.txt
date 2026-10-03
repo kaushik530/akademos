@@ -1,0 +1,260 @@
+===== PROJECT STRUCTURE =====
+.
+├── akademos-context.txt
+├── backend
+│   ├── app
+│   │   ├── ai
+│   │   ├── algorithms
+│   │   │   ├── bkt.py
+│   │   │   ├── graph.py
+│   │   │   └── irt.py
+│   │   ├── analytics
+│   │   ├── api
+│   │   │   └── routes.py
+│   │   ├── assessment
+│   │   ├── knowledge_graph
+│   │   │   └── neo4j_client.py
+│   │   ├── main.py
+│   │   ├── models
+│   │   ├── roadmap
+│   │   │   └── generator.py
+│   │   ├── scheduling
+│   │   ├── schemas
+│   │   └── services
+│   ├── .env.example
+│   └── requirements.txt
+├── docker-compose.yml
+├── frontend
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── README.md
+│   ├── src
+│   │   ├── App.tsx
+│   │   ├── components
+│   │   │   ├── knowledge-graph
+│   │   │   │   └── KnowledgeGraph.tsx
+│   │   │   ├── layout
+│   │   │   │   ├── AppShell.tsx
+│   │   │   │   ├── Logo.tsx
+│   │   │   │   └── Sidebar.tsx
+│   │   │   ├── roadmap
+│   │   │   │   └── RoadmapList.tsx
+│   │   │   └── ui
+│   │   │       ├── Badge.tsx
+│   │   │       └── ProgressBar.tsx
+│   │   ├── index.css
+│   │   ├── lib
+│   │   │   └── data.ts
+│   │   ├── main.tsx
+│   │   ├── pages
+│   │   │   ├── Assessment.tsx
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── KnowledgeGraphPage.tsx
+│   │   │   ├── Landing.tsx
+│   │   │   ├── Learn.tsx
+│   │   │   ├── Onboarding.tsx
+│   │   │   ├── Progress.tsx
+│   │   │   ├── Resources.tsx
+│   │   │   └── Roadmap.tsx
+│   │   ├── services
+│   │   │   └── api.ts
+│   │   ├── store
+│   │   └── types
+│   │       └── index.ts
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   └── vite.config.ts
+└── README.md
+
+26 directories, 41 files
+
+===== PACKAGE FILES =====
+./backend/.env.example
+./backend/requirements.txt
+./docker-compose.yml
+./frontend/node_modules/cookie/package.json
+./frontend/node_modules/d3-transition/package.json
+./frontend/node_modules/baseline-browser-mapping/package.json
+./frontend/node_modules/d3-zoom/package.json
+./frontend/node_modules/typescript/package.json
+./frontend/node_modules/semver/package.json
+./frontend/node_modules/postcss/package.json
+./frontend/node_modules/escalade/package.json
+./frontend/node_modules/set-cookie-parser/package.json
+./frontend/node_modules/@xyflow/system/package.json
+./frontend/node_modules/@xyflow/react/package.json
+./frontend/node_modules/source-map-js/package.json
+./frontend/node_modules/js-tokens/package.json
+./frontend/node_modules/@napi-rs/lzma-linux-x64-gnu/package.json
+./frontend/node_modules/d3-timer/package.json
+./frontend/node_modules/convert-source-map/package.json
+./frontend/node_modules/@standard-schema/utils/package.json
+./frontend/node_modules/@standard-schema/spec/package.json
+./frontend/node_modules/d3-drag/package.json
+./frontend/node_modules/ms/package.json
+./frontend/node_modules/@rolldown/pluginutils/package.json
+./frontend/node_modules/internmap/package.json
+./frontend/node_modules/@jridgewell/gen-mapping/package.json
+./frontend/node_modules/@jridgewell/sourcemap-codec/package.json
+./frontend/node_modules/@jridgewell/trace-mapping/package.json
+./frontend/node_modules/@jridgewell/remapping/package.json
+./frontend/node_modules/@jridgewell/resolve-uri/package.json
+./frontend/node_modules/d3-dispatch/package.json
+./frontend/node_modules/d3-path/package.json
+./frontend/node_modules/decimal.js-light/package.json
+./frontend/node_modules/gensync/package.json
+./frontend/node_modules/d3-scale/package.json
+./frontend/node_modules/picocolors/package.json
+./frontend/node_modules/victory-vendor/package.json
+./frontend/node_modules/react-dom/package.json
+./frontend/node_modules/react-redux/package.json
+./frontend/node_modules/@esbuild/linux-x64/package.json
+./frontend/node_modules/d3-ease/package.json
+./frontend/node_modules/jsesc/package.json
+./frontend/node_modules/d3-color/package.json
+./frontend/node_modules/csstype/package.json
+./frontend/node_modules/tiny-invariant/dist/esm/package.json
+./frontend/node_modules/tiny-invariant/package.json
+./frontend/node_modules/vite/package.json
+./frontend/node_modules/vite/types/package.json
+./frontend/node_modules/@types/d3-transition/package.json
+./frontend/node_modules/@types/babel__traverse/package.json
+./frontend/node_modules/@types/d3-zoom/package.json
+./frontend/node_modules/@types/d3-timer/package.json
+./frontend/node_modules/@types/d3-drag/package.json
+./frontend/node_modules/@types/babel__template/package.json
+./frontend/node_modules/@types/d3-path/package.json
+./frontend/node_modules/@types/d3-scale/package.json
+./frontend/node_modules/@types/react-dom/package.json
+./frontend/node_modules/@types/d3-ease/package.json
+./frontend/node_modules/@types/d3-color/package.json
+./frontend/node_modules/@types/react/package.json
+./frontend/node_modules/@types/estree/package.json
+./frontend/node_modules/@types/d3-shape/package.json
+./frontend/node_modules/@types/d3-time/package.json
+./frontend/node_modules/@types/babel__core/package.json
+./frontend/node_modules/@types/d3-selection/package.json
+./frontend/node_modules/@types/use-sync-external-store/package.json
+./frontend/node_modules/@types/babel__generator/package.json
+./frontend/node_modules/@types/d3-interpolate/package.json
+./frontend/node_modules/@types/d3-array/package.json
+./frontend/node_modules/react-is/package.json
+./frontend/node_modules/react/package.json
+./frontend/node_modules/react-refresh/package.json
+./frontend/node_modules/nanoid/non-secure/package.json
+./frontend/node_modules/nanoid/async/package.json
+./frontend/node_modules/nanoid/url-alphabet/package.json
+./frontend/node_modules/nanoid/package.json
+./frontend/node_modules/@vitejs/plugin-react/package.json
+./frontend/node_modules/lucide-react/package.json
+./frontend/node_modules/debug/package.json
+./frontend/node_modules/d3-shape/package.json
+./frontend/node_modules/rollup/dist/es/package.json
+./frontend/node_modules/rollup/package.json
+./frontend/node_modules/browserslist/package.json
+./frontend/node_modules/@tanstack/react-query/package.json
+./frontend/node_modules/@tanstack/query-core/package.json
+./frontend/node_modules/lru-cache/package.json
+./frontend/node_modules/fdir/package.json
+./frontend/node_modules/d3-time/package.json
+./frontend/node_modules/yallist/package.json
+./frontend/node_modules/d3-selection/package.json
+./frontend/node_modules/json5/package.json
+./frontend/node_modules/redux-thunk/package.json
+./frontend/node_modules/caniuse-lite/package.json
+./frontend/node_modules/tinyglobby/package.json
+./frontend/node_modules/reselect/package.json
+./frontend/node_modules/use-sync-external-store/package.json
+./frontend/node_modules/@rollup/rollup-linux-x64-musl/package.json
+./frontend/node_modules/@rollup/rollup-linux-x64-gnu/package.json
+./frontend/node_modules/eventemitter3/package.json
+./frontend/node_modules/@babel/helper-validator-identifier/package.json
+./frontend/node_modules/@babel/generator/package.json
+./frontend/node_modules/@babel/core/package.json
+./frontend/node_modules/@babel/plugin-transform-react-jsx-source/package.json
+./frontend/node_modules/@babel/helper-validator-option/package.json
+./frontend/node_modules/@babel/helper-string-parser/package.json
+./frontend/node_modules/@babel/helper-globals/package.json
+./frontend/node_modules/@babel/helper-compilation-targets/package.json
+./frontend/node_modules/@babel/compat-data/package.json
+./frontend/node_modules/@babel/parser/package.json
+./frontend/node_modules/@babel/code-frame/package.json
+./frontend/node_modules/@babel/helper-module-transforms/package.json
+./frontend/node_modules/@babel/helpers/package.json
+./frontend/node_modules/@babel/template/package.json
+./frontend/node_modules/@babel/helper-plugin-utils/package.json
+./frontend/node_modules/@babel/helper-module-imports/package.json
+./frontend/node_modules/@babel/traverse/package.json
+./frontend/node_modules/@babel/types/package.json
+./frontend/node_modules/@babel/plugin-transform-react-jsx-self/package.json
+./frontend/node_modules/esbuild/package.json
+./frontend/node_modules/picomatch/package.json
+./frontend/node_modules/d3-time-format/package.json
+./frontend/node_modules/scheduler/package.json
+./frontend/node_modules/electron-to-chromium/package.json
+./frontend/node_modules/update-browserslist-db/package.json
+./frontend/node_modules/recharts/package.json
+./frontend/node_modules/clsx/package.json
+./frontend/node_modules/node-releases/package.json
+./frontend/node_modules/d3-interpolate/package.json
+./frontend/node_modules/.vite/deps/package.json
+./frontend/node_modules/react-router-dom/package.json
+./frontend/node_modules/redux/package.json
+./frontend/node_modules/@reduxjs/toolkit/query/react/package.json
+./frontend/node_modules/@reduxjs/toolkit/query/package.json
+./frontend/node_modules/@reduxjs/toolkit/react/package.json
+./frontend/node_modules/@reduxjs/toolkit/package.json
+./frontend/node_modules/zod/mini/package.json
+./frontend/node_modules/zod/v4-mini/package.json
+./frontend/node_modules/zod/v4/classic/package.json
+./frontend/node_modules/zod/v4/core/package.json
+./frontend/node_modules/zod/v4/mini/package.json
+./frontend/node_modules/zod/v4/locales/package.json
+./frontend/node_modules/zod/v4/package.json
+./frontend/node_modules/zod/locales/package.json
+./frontend/node_modules/zod/package.json
+./frontend/node_modules/zod/v3/package.json
+./frontend/node_modules/immer/package.json
+./frontend/node_modules/react-router/package.json
+./frontend/node_modules/classcat/package.json
+./frontend/node_modules/es-toolkit/package.json
+./frontend/node_modules/d3-format/package.json
+./frontend/node_modules/zustand/package.json
+./frontend/node_modules/d3-array/package.json
+./frontend/package.json
+
+===== FRONTEND SOURCE FILES =====
+frontend/src/App.tsx
+frontend/src/components/knowledge-graph/KnowledgeGraph.tsx
+frontend/src/components/layout/AppShell.tsx
+frontend/src/components/layout/Logo.tsx
+frontend/src/components/layout/Sidebar.tsx
+frontend/src/components/roadmap/RoadmapList.tsx
+frontend/src/components/ui/Badge.tsx
+frontend/src/components/ui/ProgressBar.tsx
+frontend/src/index.css
+frontend/src/lib/data.ts
+frontend/src/main.tsx
+frontend/src/pages/Assessment.tsx
+frontend/src/pages/Dashboard.tsx
+frontend/src/pages/KnowledgeGraphPage.tsx
+frontend/src/pages/Landing.tsx
+frontend/src/pages/Learn.tsx
+frontend/src/pages/Onboarding.tsx
+frontend/src/pages/Progress.tsx
+frontend/src/pages/Resources.tsx
+frontend/src/pages/Roadmap.tsx
+frontend/src/services/api.ts
+frontend/src/types/index.ts
+
+===== BACKEND SOURCE FILES =====
+backend/app/algorithms/bkt.py
+backend/app/algorithms/graph.py
+backend/app/algorithms/irt.py
+backend/app/api/routes.py
+backend/app/knowledge_graph/neo4j_client.py
+backend/app/main.py
+backend/app/roadmap/generator.py
+backend/.env.example
+backend/requirements.txt
