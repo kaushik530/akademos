@@ -1,0 +1,1 @@
+export default function ProgressBar({value,thin=false}:{value:number;thin?:boolean}){return <div className={`progress ${thin?'thin':''}`}><span style={{width:`${Math.max(0,Math.min(100,value))}%`}}/></div>}
