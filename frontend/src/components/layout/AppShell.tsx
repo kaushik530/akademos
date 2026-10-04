@@ -1,2 +1,50 @@
-import {ReactNode} from 'react';import {Bell,Search,Plus} from 'lucide-react';import Sidebar from './Sidebar';
-export default function AppShell({children,title,eyebrow}:{children:ReactNode;title?:string;eyebrow?:string}){return <div className="app-shell"><Sidebar/><main className="main"><header className="topbar"><div className="crumb"><span>AKADEMOS</span>{title&&<><i>/</i><b>{title}</b></>}</div><div className="top-actions"><button className="icon-btn"><Search size={17}/></button><button className="icon-btn"><Bell size={17}/><span className="dot"/></button><button className="new-btn"><Plus size={15}/> New plan</button></div></header><div className="page"><div className="page-head">{eyebrow&&<span className="eyebrow">{eyebrow}</span>}{title&&<h1>{title}</h1>}</div>{children}</div></main></div>}
+import { ReactNode } from "react";
+import { Bell, Search, Plus } from "lucide-react";
+import Sidebar from "./Sidebar";
+export default function AppShell({
+  children,
+  title,
+  eyebrow,
+}: {
+  children: ReactNode;
+  title?: string;
+  eyebrow?: string;
+}) {
+  return (
+    <div className="app-shell">
+      <Sidebar />
+      <main className="main">
+        <header className="topbar">
+          <div className="crumb">
+            <span>AKADEMOS</span>
+            {title && (
+              <>
+                <i>/</i>
+                <b>{title}</b>
+              </>
+            )}
+          </div>
+          <div className="top-actions">
+            <button className="icon-btn">
+              <Search size={17} />
+            </button>
+            <button className="icon-btn">
+              <Bell size={17} />
+              <span className="dot" />
+            </button>
+            <button className="new-btn">
+              <Plus size={15} /> New plan
+            </button>
+          </div>
+        </header>
+        <div className="page">
+          <div className="page-head">
+            {eyebrow && <span className="eyebrow">{eyebrow}</span>}
+            {title && <h1>{title}</h1>}
+          </div>
+          {children}
+        </div>
+      </main>
+    </div>
+  );
+}
