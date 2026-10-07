@@ -30,13 +30,16 @@ export default function Login() {
     setSuccess("");
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setError("");
     setSuccess("");
 
-    
+    // --------------------------------
+    // SIGNUP VALIDATION
+    // --------------------------------
+
     if (isSignup) {
       if (!formData.name.trim()) {
         setError("Please enter your name.");
@@ -48,8 +51,8 @@ export default function Login() {
         return;
       }
 
-      if (formData.password.length < 6) {
-        setError("Password must be at least 6 characters.");
+      if (formData.password.length < 8) {
+        setError("Password must be at least 8 characters.");
         return;
       }
 
@@ -57,61 +60,115 @@ export default function Login() {
         setError("Passwords do not match.");
         return;
       }
-
-      
-
-      const user = {
-        name: formData.name,
-        email: formData.email,
-      };
-
-      localStorage.setItem("akademosUser", JSON.stringify(user));
-      localStorage.setItem("akademosAuthenticated", "true");
-
-      setSuccess("Account created successfully.");
-
-      setTimeout(() => {
-        navigate("/onboarding");
-      }, 700);
-
-      return;
     }
 
-   
+    // --------------------------------
+    // LOGIN VALIDATION
+    // --------------------------------
 
-    if (!formData.email.trim()) {
-      setError("Please enter your email.");
-      return;
+    if (!isSignup) {
+      if (!formData.email.trim()) {
+        setError("Please enter your email.");
+        return;
+      }
+
+      if (!formData.password) {
+        setError("Please enter your password.");
+        return;
+      }
     }
 
-    if (!formData.password) {
-      setError("Please enter your password.");
-      return;
+    try {
+      // --------------------------------
+      // API ENDPOINT
+      // --------------------------------
+
+      const endpoint = isSignup
+        ? "http://127.0.0.1:8000/api/auth/signup"
+        : "http://127.0.0.1:8000/api/auth/login";
+
+      // --------------------------------
+      // REQUEST BODY
+      // --------------------------------
+
+      const requestBody = isSignup
+        ? {
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            password: formData.password,
+          }
+        : {
+            email: formData.email.trim(),
+            password: formData.password,
+          };
+
+      // --------------------------------
+      // SEND REQUEST TO FASTAPI
+      // --------------------------------
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+
+      // --------------------------------
+      // HANDLE BACKEND ERROR
+      // --------------------------------
+
+      if (!response.ok) {
+        throw new Error(
+          data.detail || "Something went wrong. Please try again."
+        );
+      }
+
+      // --------------------------------
+      // SAVE JWT + USER
+      // --------------------------------
+
+      localStorage.setItem(
+        "akademosToken",
+        data.access_token
+      );
+
+      localStorage.setItem(
+        "akademosUser",
+        JSON.stringify(data.user)
+      );
+
+      localStorage.setItem(
+        "akademosAuthenticated",
+        "true"
+      );
+
+      // --------------------------------
+      // SUCCESS + REDIRECT
+      // --------------------------------
+
+      if (isSignup) {
+        setSuccess("Account created successfully.");
+
+        setTimeout(() => {
+          navigate("/onboarding");
+        }, 700);
+      } else {
+        setSuccess("Welcome back.");
+
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 700);
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to connect to the server."
+      );
     }
-
-    
-
-    const storedUser = localStorage.getItem("akademosUser");
-
-    if (!storedUser) {
-      setError("No account found. Please sign up first.");
-      return;
-    }
-
-    const user = JSON.parse(storedUser);
-
-    if (user.email !== formData.email) {
-      setError("No account found with this email.");
-      return;
-    }
-
-    localStorage.setItem("akademosAuthenticated", "true");
-
-    setSuccess("Welcome back.");
-
-    setTimeout(() => {
-      navigate("/dashboard");
-    }, 700);
   };
 
   const switchMode = () => {
@@ -125,12 +182,17 @@ export default function Login() {
       password: "",
       confirmPassword: "",
     });
+
+    setShowPassword(false);
+    setShowConfirmPassword(false);
   };
 
   return (
     <div className="auth-page">
 
-      
+      {/* -------------------------------- */}
+      {/* BACKGROUND RINGS */}
+      {/* -------------------------------- */}
 
       <div className="auth-rings">
         <div className="auth-ring auth-ring-one">
@@ -140,7 +202,6 @@ export default function Login() {
         </div>
       </div>
 
-
       {/* -------------------------------- */}
       {/* TOP LOGO */}
       {/* -------------------------------- */}
@@ -148,30 +209,30 @@ export default function Login() {
       <header className="auth-header">
 
         <Link to="/" className="logo auth-logo">
+          <div className="logo">
+            <span className="logo-mark">A</span>
 
-            <div className="logo">
-              <span className="logo-mark">A</span>
-
-              <span>
-                akadem
-                <span className="logo-accent">o</span>
-                s
-              </span>
-            </div>
-
-
+            <span>
+              akadem
+              <span className="logo-accent">o</span>
+              s
+            </span>
+          </div>
         </Link>
 
       </header>
 
-
-      
+      {/* -------------------------------- */}
+      {/* MAIN AUTH CONTAINER */}
+      {/* -------------------------------- */}
 
       <main className="auth-container">
 
         <div className="auth-card">
 
-         
+          {/* -------------------------------- */}
+          {/* HEADING */}
+          {/* -------------------------------- */}
 
           <div className="auth-heading">
 
@@ -195,15 +256,18 @@ export default function Login() {
 
           </div>
 
-
-          {/* Form */}
+          {/* -------------------------------- */}
+          {/* FORM */}
+          {/* -------------------------------- */}
 
           <form
             onSubmit={handleSubmit}
             className="auth-form"
           >
 
-           
+            {/* -------------------------------- */}
+            {/* NAME - SIGNUP ONLY */}
+            {/* -------------------------------- */}
 
             {isSignup && (
               <div className="input-group">
@@ -225,8 +289,9 @@ export default function Login() {
               </div>
             )}
 
-
-            {/* Email */}
+            {/* -------------------------------- */}
+            {/* EMAIL */}
+            {/* -------------------------------- */}
 
             <div className="input-group">
 
@@ -246,8 +311,9 @@ export default function Login() {
 
             </div>
 
-
-            {/* Password */}
+            {/* -------------------------------- */}
+            {/* PASSWORD */}
+            {/* -------------------------------- */}
 
             <div className="input-group">
 
@@ -260,10 +326,14 @@ export default function Login() {
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? "text" : "password"}
+                  type={
+                    showPassword
+                      ? "text"
+                      : "password"
+                  }
                   placeholder={
                     isSignup
-                      ? "At least 6 characters"
+                      ? "At least 8 characters"
                       : "Your password"
                   }
                   value={formData.password}
@@ -298,8 +368,9 @@ export default function Login() {
 
             </div>
 
-
-            {/* Confirm password */}
+            {/* -------------------------------- */}
+            {/* CONFIRM PASSWORD - SIGNUP ONLY */}
+            {/* -------------------------------- */}
 
             {isSignup && (
               <div className="input-group">
@@ -332,6 +403,11 @@ export default function Login() {
                         !showConfirmPassword
                       )
                     }
+                    aria-label={
+                      showConfirmPassword
+                        ? "Hide password"
+                        : "Show password"
+                    }
                   >
                     {showConfirmPassword ? (
                       <EyeOff size={17} />
@@ -345,8 +421,9 @@ export default function Login() {
               </div>
             )}
 
-
-            {/* Forgot password */}
+            {/* -------------------------------- */}
+            {/* FORGOT PASSWORD */}
+            {/* -------------------------------- */}
 
             {!isSignup && (
               <div className="forgot-row">
@@ -366,8 +443,9 @@ export default function Login() {
               </div>
             )}
 
-
-            {/* Error */}
+            {/* -------------------------------- */}
+            {/* ERROR MESSAGE */}
+            {/* -------------------------------- */}
 
             {error && (
               <div className="auth-message error">
@@ -375,8 +453,9 @@ export default function Login() {
               </div>
             )}
 
-
-            {/* Success */}
+            {/* -------------------------------- */}
+            {/* SUCCESS MESSAGE */}
+            {/* -------------------------------- */}
 
             {success && (
               <div className="auth-message success">
@@ -385,8 +464,9 @@ export default function Login() {
               </div>
             )}
 
-
-            {/* Submit */}
+            {/* -------------------------------- */}
+            {/* SUBMIT BUTTON */}
+            {/* -------------------------------- */}
 
             <button
               type="submit"
@@ -405,8 +485,9 @@ export default function Login() {
 
           </form>
 
-
-          {/* Divider */}
+          {/* -------------------------------- */}
+          {/* DIVIDER */}
+          {/* -------------------------------- */}
 
           <div className="auth-divider">
             <span />
@@ -414,8 +495,9 @@ export default function Login() {
             <span />
           </div>
 
-
-          {/* Google */}
+          {/* -------------------------------- */}
+          {/* GOOGLE */}
+          {/* -------------------------------- */}
 
           <button
             type="button"
@@ -426,15 +508,18 @@ export default function Login() {
               )
             }
           >
+
             <span className="google-icon">
               G
             </span>
 
             Continue with Google
+
           </button>
 
-
-          {/* Switch */}
+          {/* -------------------------------- */}
+          {/* SWITCH LOGIN / SIGNUP */}
+          {/* -------------------------------- */}
 
           <div className="auth-switch">
 
@@ -457,8 +542,9 @@ export default function Login() {
 
         </div>
 
-
-        {/* Bottom text */}
+        {/* -------------------------------- */}
+        {/* FOOTER */}
+        {/* -------------------------------- */}
 
         <p className="auth-footer">
           By continuing, you agree to Akademos'{" "}

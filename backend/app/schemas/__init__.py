@@ -77,3 +77,34 @@ class LearningResponse(BaseModel): concept: ConceptResponse; learning: LearningC
 class AssessmentQuestionSchema(BaseModel): id: str; question: str; options: List[str]
 class AssessmentResponseSchema(BaseModel): id: str; title: str; questions: List[AssessmentQuestionSchema]; result: Optional[dict] = None
 class AssessmentSubmit(BaseModel): answers: List[int]
+
+
+
+# -------------------------
+# Authentication Schemas
+# -------------------------
+
+class SignupRequest(BaseModel):
+    name: str = Field(..., min_length=1, max_length=100)
+    email: str = Field(..., min_length=3, max_length=255)
+    password: str = Field(..., min_length=8, max_length=72)
+
+
+class LoginRequest(BaseModel):
+    email: str = Field(..., min_length=3, max_length=255)
+    password: str = Field(..., min_length=1, max_length=72)
+
+
+class UserResponse(BaseModel):
+    id: int
+    name: str
+    email: str
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class AuthResponse(BaseModel):
+    access_token: str
+    token_type: str
+    user: UserResponse

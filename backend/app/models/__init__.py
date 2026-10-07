@@ -5,6 +5,7 @@ from app.models.progress import ProgressSnapshot, MasteryBreakdown
 from app.models.resource import Resource
 from app.models.assessment import Assessment, AssessmentQuestion, AssessmentResult
 from app.models.learning import LearningSession
+from app.models.user import User
 
 __all__ = [
     "Student",
@@ -17,4 +18,5 @@ __all__ = [
     "AssessmentQuestion",
     "AssessmentResult",
     "LearningSession",
+    "User"
 ]

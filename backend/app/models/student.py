@@ -1,15 +1,19 @@
 from sqlalchemy import Column, String, Integer, Float, DateTime, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 import uuid
 
 from app.database import Base
+
 
 
 class Student(Base):
     __tablename__ = "students"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    
     name = Column(String(255), nullable=False)
     goal = Column(String(500), nullable=True)
     subject = Column(String(255), nullable=True)
